@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 type ButtonStyledProps = {
-  size: "small" | "medium" | "large";
-  variation: "primary" | "secondary" | "danger";
+  size: 'small' | 'medium' | 'large';
+  variation: 'primary' | 'secondary' | 'danger';
 };
 
 const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -13,8 +13,8 @@ const ButtonStyled = styled.button<ButtonStyledProps>`
   ${({ variation }) => variations[variation]}
 `;
 ButtonStyled.defaultProps = {
-  size: "medium",
-  variation: "primary",
+  size: 'medium',
+  variation: 'primary',
 };
 
 const sizes = {
@@ -64,6 +64,5 @@ const variations = {
     }
   `,
 };
-
 
 export default ButtonStyled;
