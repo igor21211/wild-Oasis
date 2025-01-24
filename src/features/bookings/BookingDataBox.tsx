@@ -102,7 +102,7 @@ const Footer = styled.footer`
 `;
 
 // A purely presentational component
-function BookingDataBox({ booking }) {
+function BookingDataBox({ booking }: { booking: BookingType }) {
   const {
     created_at,
     startDate,

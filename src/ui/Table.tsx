@@ -1,3 +1,6 @@
+import { BookingType } from '@/features/bookings/types';
+import { CabinType } from '../features/cabins/types';
+import { createContext, useContext } from 'react';
 import styled from 'styled-components';
 
 const StyledTable = styled.div`
@@ -9,7 +12,7 @@ const StyledTable = styled.div`
   overflow: hidden;
 `;
 
-const CommonRow = styled.div`
+const CommonRow = styled.div<{ columns: string }>`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   column-gap: 2.4rem;
@@ -58,3 +61,59 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+interface TableProps {
+  columns: string;
+  children: React.ReactNode;
+}
+
+const TableContext = createContext<{
+  columns: string;
+}>({
+  columns: '',
+});
+
+function Table({ columns, children }: TableProps) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+const Header = ({ children }: { children: React.ReactNode }) => {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader role="row" columns={columns} as="header">
+      {children}
+    </StyledHeader>
+  );
+};
+
+const Row = ({ children }: { children: React.ReactNode }) => {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+};
+
+const Body = ({
+  data,
+  render,
+}: {
+  data: CabinType[] | BookingType[];
+  render: (item: CabinType | BookingType) => React.ReactNode;
+}) => {
+  if (!data || !data.length)
+    return <Empty>No data to show at the moment</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
+};
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer;
+
+export default Table;

@@ -6,6 +6,10 @@ import Table from '../../ui/Table';
 
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
+import { BookingType } from './types';
+import Menus from '../../ui/Menus';
+import { HiPencil, HiEye, HiTrash } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -34,20 +38,19 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({
-  booking: {
+function BookingRow({ booking }: { booking: BookingType }) {
+  const navigate = useNavigate();
+  const {
     id: bookingId,
-    created_at,
     startDate,
     endDate,
     numNights,
-    numGuests,
     totalPrice,
     status,
-    guests: { fullName: guestName, email },
+    guests: { fullName, email },
     cabins: { name: cabinName },
-  },
-}) {
+  } = booking;
+
   const statusToTagName = {
     unconfirmed: 'blue',
     'checked-in': 'green',
@@ -59,7 +62,7 @@ function BookingRow({
       <Cabin>{cabinName}</Cabin>
 
       <Stacked>
-        <span>{guestName}</span>
+        <span>{fullName}</span>
         <span>{email}</span>
       </Stacked>
 
@@ -76,9 +79,24 @@ function BookingRow({
         </span>
       </Stacked>
 
-      <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+      <Tag type={statusToTagName[status as keyof typeof statusToTagName]}>
+        {status.replace('-', ' ')}
+      </Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Menus.Menu>
+        <Menus.Toggle id={bookingId.toString()} />
+        <Menus.List id={bookingId.toString()}>
+          <Menus.Button
+            icon={<HiEye />}
+            onClick={() => navigate(`/bookings/${bookingId}`)}
+          >
+            View booking
+          </Menus.Button>
+          <Menus.Button icon={<HiPencil />}>Edit booking</Menus.Button>
+          <Menus.Button icon={<HiTrash />}>Delete booking</Menus.Button>
+        </Menus.List>
+      </Menus.Menu>
     </Table.Row>
   );
 }
