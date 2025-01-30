@@ -12,10 +12,18 @@ const Login = lazy(() => import('../pages/Login'));
 const Account = lazy(() => import('../pages/Account'));
 const PageNotFound = lazy(() => import('../pages/PageNotFound'));
 const Booking = lazy(() => import('../pages/Booking'));
+const Checkin = lazy(() => import('../pages/Checkin'));
 
+const ProtectedRoute = lazy(() => import('./ProtectedRoute'));
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: (
+      <Suspense fallback={<Spinner />}>
+        <ProtectedRoute>
+          <AppLayout />
+        </ProtectedRoute>
+      </Suspense>
+    ),
     children: [
       {
         path: '/',
@@ -42,6 +50,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Spinner />}>
             <Booking />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/checkin/:bookingId',
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <Checkin />
           </Suspense>
         ),
       },

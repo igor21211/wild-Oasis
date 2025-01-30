@@ -102,6 +102,7 @@ const Menus = ({ children }: { children: React.ReactNode }) => {
 const Toggle = ({ id }: { id: string }) => {
   const { openId, open, close, setPosition } = useContext(MenusContext);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     const button = (e.target as HTMLElement).closest('button');
     const rect = button?.getBoundingClientRect();
     setPosition({
@@ -121,7 +122,7 @@ const List = ({ children, id }: { children: React.ReactNode; id: string }) => {
   const { openId, position, close } = useContext(MenusContext);
   const ref = useOutsideClick<HTMLUListElement>({
     handler: close,
-    listenCapturing: true,
+    listenCapturing: false,
   });
 
   if (openId !== id) return null;
@@ -137,19 +138,22 @@ const Button = ({
   children,
   icon,
   onClick,
+  disabled,
 }: {
   children: React.ReactNode;
   icon?: React.ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
 }) => {
   const { close } = useContext(MenusContext);
   const handleClick = () => {
+    console.log('clicked');
     onClick?.();
     close();
   };
   return (
     <li>
-      <StyledButton onClick={handleClick}>
+      <StyledButton onClick={handleClick} disabled={disabled}>
         {icon}
         <span>{children}</span>
       </StyledButton>

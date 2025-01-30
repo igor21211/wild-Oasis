@@ -12,15 +12,14 @@ function UpdatePasswordForm() {
 
   const { updateUser, isUpdating } = useUpdateUser();
 
-  function onSubmit({ password }) {
-    updateUser({ password }, { onSuccess: reset });
+  function onSubmit({ password }: { password: string }) {
+    updateUser({ password });
   }
-
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form type="modal" onSubmit={handleSubmit(onSubmit)}>
       <FormRow
         label="Password (min 8 characters)"
-        error={errors?.password?.message}
+        error={errors?.password?.message as string}
       >
         <Input
           type="password"
@@ -39,7 +38,7 @@ function UpdatePasswordForm() {
 
       <FormRow
         label="Confirm password"
-        error={errors?.passwordConfirm?.message}
+        error={errors?.passwordConfirm?.message as string}
       >
         <Input
           type="password"
@@ -54,10 +53,18 @@ function UpdatePasswordForm() {
         />
       </FormRow>
       <FormRow>
-        <Button onClick={reset} type="reset" variation="secondary">
+        <Button
+          onClick={reset}
+          type="reset"
+          variation="secondary"
+          size="small"
+          disabled={isUpdating}
+          >
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button disabled={isUpdating} size="small" variation="primary">
+          Update password
+        </Button>
       </FormRow>
     </Form>
   );

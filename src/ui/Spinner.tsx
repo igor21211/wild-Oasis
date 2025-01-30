@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const rotate = keyframes`
   to {
@@ -6,11 +6,26 @@ const rotate = keyframes`
   }
 `;
 
-const Spinner = styled.div`
-  margin: 4.8rem auto;
+type SpinnerProps = {
+  size?: 'small' | 'large';
+};
 
-  width: 6.4rem;
-  aspect-ratio: 1;
+const Spinner = styled.div<SpinnerProps>`
+  ${(props) =>
+    props.size === 'large' &&
+    css`
+      margin: 4.8rem auto;
+      width: 6.4rem;
+      aspect-ratio: 1;
+    `}
+  ${(props) =>
+    props.size === 'small' &&
+    css`
+      margin: 0 auto;
+      width: 2.4rem;
+      aspect-ratio: 1;
+    `}
+
   border-radius: 50%;
   background:
     radial-gradient(farthest-side, var(--color-brand-600) 94%, #0000) top/10px
@@ -19,5 +34,9 @@ const Spinner = styled.div`
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 10px), #000 0);
   animation: ${rotate} 1.5s infinite linear;
 `;
+
+Spinner.defaultProps = {
+  size: 'large',
+};
 
 export default Spinner;

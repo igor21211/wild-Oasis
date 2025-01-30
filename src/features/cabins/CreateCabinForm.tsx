@@ -10,7 +10,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { CabinType } from './types';
-import FormRow from '../../ui/FromRow';
+import FormRow from '../../ui/FormRow';
 import { useCreateCabin } from './useCreateCabin';
 import { useEditCabin } from './useEditCabin';
 

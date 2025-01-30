@@ -128,7 +128,10 @@ function Open({
 }) {
   const { open } = useContext(ModalContext);
   return cloneElement(children as React.ReactElement, {
-    onClick: () => open(opens),
+    onClick: () => {
+      console.log('opens', opens);
+      open(opens);
+    },
   });
 }
 

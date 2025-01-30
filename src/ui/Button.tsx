@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 type ButtonStyledProps = {
   size: 'small' | 'medium' | 'large';
-  variation: 'primary' | 'secondary' | 'danger';
+  variation: 'primary' | 'secondary' | 'danger' | 'disabled';
 };
 
 const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -63,8 +63,11 @@ const variations = {
       background-color: var(--color-red-800);
     }
   `,
+  disabled: css`
+    &:disabled {
+      background-color: var(--color-grey-200);
+    }
+  `,
 };
-
-
 
 export default ButtonStyled;

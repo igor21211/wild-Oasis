@@ -1,6 +1,6 @@
 import Spinner from '../../ui/Spinner';
 import Form from '../../ui/Form';
-import FormRow from '../../ui/FromRow';
+import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import { useSettings } from './useSettings';
 import { useEditSettings } from './useEditSettings';
